@@ -10,34 +10,32 @@ const serverlessConfiguration: Serverless = {
   frameworkVersion: '2',
   configValidationMode: 'warn',
   custom: {
-    webpack: {
-      webpackConfig: './webpack.config.js',
-      includeModules: true
+    'serverless-layers': {
+      packageManager: 'npm',
+      layersDeploymentBucket: 'web-screenshot-serverless-layers-deployment'
     }
   },
-  // Add the serverless-webpack plugin
-  plugins: ['serverless-webpack'],
+  plugins: [
+    'serverless-plugin-typescript',
+    'serverless-layers'
+  ],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
-    apiGateway: {
-      minimumCompressionSize: 1024,
-    },
+    iamRoleStatements: [
+      {
+        Effect: "Allow",
+        Action: 's3:PutObject',
+        Resource: 'arn:aws:s3:::web-screenshot-okonomi/*'
+      }
+    ],
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
     },
   },
   functions: {
-    hello: {
-      handler: 'handler.hello',
-      events: [
-        {
-          http: {
-            method: 'get',
-            path: 'hello',
-          }
-        }
-      ]
+    screenshot: {
+      handler: 'src/handlers/screenshot.handler'
     }
   }
 }
