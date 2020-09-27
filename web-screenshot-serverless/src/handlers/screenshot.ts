@@ -1,11 +1,12 @@
 import { Handler } from 'aws-lambda';
 import chromium from 'chrome-aws-lambda';
+import { Browser } from 'puppeteer';
 import 'source-map-support/register';
 
 
 export const handler: Handler = async (event) => {
   let result = null;
-  let browser = null;
+  let browser: Browser | null = null;
 
   try {
     browser = await chromium.puppeteer.launch({
@@ -19,8 +20,12 @@ export const handler: Handler = async (event) => {
     let page = await browser.newPage();
 
     await page.goto(event.url || 'https://example.com');
-
     result = await page.title();
+
+    const screenshot = await page.screenshot({
+      fullPage: true,
+      path: './screenshot.png'
+    })
   } catch (error) {
     throw error;
   } finally {
