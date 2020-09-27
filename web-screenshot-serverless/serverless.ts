@@ -10,9 +10,13 @@ const serverlessConfiguration: Serverless = {
   frameworkVersion: '2',
   configValidationMode: 'warn',
   custom: {
+    'serverless-layers': {
+      layersDeploymentBucket: 'web-screenshot-serverless-layers-deployment'
+    }
   },
   plugins: [
-    'serverless-plugin-typescript'
+    'serverless-plugin-typescript',
+    'serverless-layers'
   ],
   provider: {
     name: 'aws',

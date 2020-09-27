@@ -13,6 +13,7 @@
     "@types/aws-lambda": "^8.10.17",
     "@types/node": "^10.12.18",
     "@types/serverless": "^1.72.5",
+    "serverless-layers": "^2.3.0",
     "serverless-plugin-typescript": "^1.1.9",
     "ts-loader": "^5.3.3",
     "ts-node": "^8.10.2",
