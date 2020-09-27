@@ -24,6 +24,9 @@ class ScreenshotsController < ApplicationController
   # POST /screenshots
   # POST /screenshots.json
   def create
+    client = Aws::Lambda::Client.new(region: 'us-east-1')
+    client.invoke(function_name: 'web-screenshot-serverless-dev-hello', invocation_type: 'Event')
+
     @screenshot = Screenshot.new(screenshot_params)
 
     respond_to do |format|
