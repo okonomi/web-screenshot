@@ -28,6 +28,9 @@ const serverlessConfiguration: Serverless = {
   functions: {
     hello: {
       handler: 'handler.hello'
+    },
+    screenshot: {
+      handler: 'src/handlers/screenshot.handler'
     }
   }
 }
