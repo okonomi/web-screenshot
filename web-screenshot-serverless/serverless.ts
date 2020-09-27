@@ -10,13 +10,10 @@ const serverlessConfiguration: Serverless = {
   frameworkVersion: '2',
   configValidationMode: 'warn',
   custom: {
-    webpack: {
-      webpackConfig: './webpack.config.js',
-      includeModules: true
-    }
   },
-  // Add the serverless-webpack plugin
-  plugins: ['serverless-webpack'],
+  plugins: [
+    'serverless-plugin-typescript'
+  ],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
