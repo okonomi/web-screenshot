@@ -9,6 +9,12 @@
     </tr>
   </thead>
 
+  <ul>
+    <% @images.each do |image| %>
+      <li><%= link_to image, screenshot_path(key: image) %></li>
+    <% end %>
+  </ul>
+
   <tbody>
     <% @screenshots.each do |screenshot| %>
       <tr>

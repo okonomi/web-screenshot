@@ -10,9 +10,8 @@ class ScreenshotsController < ApplicationController
     resp = client.list_objects_v2({
       bucket: 'web-screenshot-images-okonomi'
     })
-    p resp
-    resp.contents.each do |content|
-      p content.key
+    @images = resp.contents.map do |content|
+      content.key
     end
   end
 
