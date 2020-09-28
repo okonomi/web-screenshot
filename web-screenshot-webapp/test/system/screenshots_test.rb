@@ -14,6 +14,7 @@ class ScreenshotsTest < ApplicationSystemTestCase
     visit screenshots_url
     click_on "New Screenshot"
 
+    fill_in "Url", with: @screenshot.url
     click_on "Create Screenshot"
 
     assert_text "Screenshot was successfully created"
@@ -24,6 +25,7 @@ class ScreenshotsTest < ApplicationSystemTestCase
     visit screenshots_url
     click_on "Edit", match: :first
 
+    fill_in "Url", with: @screenshot.url
     click_on "Update Screenshot"
 
     assert_text "Screenshot was successfully updated"

@@ -17,7 +17,7 @@ class ScreenshotsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create screenshot" do
     assert_difference('Screenshot.count') do
-      post screenshots_url, params: { screenshot: {  } }
+      post screenshots_url, params: { screenshot: { url: @screenshot.url } }
     end
 
     assert_redirected_to screenshot_url(Screenshot.last)
@@ -34,7 +34,7 @@ class ScreenshotsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update screenshot" do
-    patch screenshot_url(@screenshot), params: { screenshot: {  } }
+    patch screenshot_url(@screenshot), params: { screenshot: { url: @screenshot.url } }
     assert_redirected_to screenshot_url(@screenshot)
   end
 
