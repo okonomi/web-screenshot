@@ -2,6 +2,7 @@ import { Handler } from 'aws-lambda';
 import chromium from 'chrome-aws-lambda';
 import { Browser } from 'puppeteer';
 import * as AWS from 'aws-sdk';
+import format from 'date-fns/format'
 import 'source-map-support/register';
 
 AWS.config.update({region: 'us-east-1'});
@@ -32,7 +33,7 @@ export const handler: Handler = async (event) => {
 
     await s3.upload({
       Bucket: 'web-screenshot-images-okonomi',
-      Key: 'result.png',
+      Key: `${format(new Date(), 'yyyyMMddHHmmssSSS')}.png`,
       Body: screenshot
     }).promise()
   } catch (error) {
