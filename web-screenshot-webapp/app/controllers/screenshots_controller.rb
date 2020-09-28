@@ -5,6 +5,15 @@ class ScreenshotsController < ApplicationController
   # GET /screenshots.json
   def index
     @screenshots = Screenshot.all
+
+    client = Aws::S3::Client.new(region: 'us-east-1')
+    resp = client.list_objects_v2({
+      bucket: 'web-screenshot-images-okonomi'
+    })
+    p resp
+    resp.contents.each do |content|
+      p content.key
+    end
   end
 
   # GET /screenshots/1
@@ -25,7 +34,13 @@ class ScreenshotsController < ApplicationController
   # POST /screenshots.json
   def create
     client = Aws::Lambda::Client.new(region: 'us-east-1')
-    client.invoke(function_name: 'web-screenshot-serverless-dev-hello', invocation_type: 'Event')
+    client.invoke(
+      function_name: 'web-screenshot-serverless-dev-screenshot',
+      payload: {
+        url: 'https://www.example.com/'
+      }.to_json,
+      invocation_type: 'Event',
+    )
 
     @screenshot = Screenshot.new(screenshot_params)
 
