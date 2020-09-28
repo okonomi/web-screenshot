@@ -1,5 +1,5 @@
 class ScreenshotsController < ApplicationController
-  before_action :set_screenshot, only: [:show, :edit, :update, :destroy]
+  # before_action :set_screenshot, only: [:show, :edit, :update, :destroy]
 
   # GET /screenshots
   # GET /screenshots.json
@@ -18,6 +18,18 @@ class ScreenshotsController < ApplicationController
   # GET /screenshots/1
   # GET /screenshots/1.json
   def show
+    p params[:key]
+
+    client = Aws::S3::Client.new(region: 'us-east-1')
+    @object = client.get_object(
+      bucket: 'web-screenshot-images-okonomi',
+      key: params[:key]
+    )
+    send_data(
+      @object.body.read,
+      type: @object.content_type || 'image/png',
+      disposition: 'inline'
+    )
   end
 
   # GET /screenshots/new
