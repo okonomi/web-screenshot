@@ -33,7 +33,7 @@ export const handler: Handler = async (event) => {
 
     await s3.upload({
       Bucket: 'web-screenshot-images-okonomi',
-      Key: `${format(new Date(), 'yyyyMMddHHmmssSSS')}.png`,
+      Key: `${event.id}.png`,
       Body: screenshot
     }).promise()
   } catch (error) {
