@@ -3,6 +3,16 @@ class Screenshot < ApplicationRecord
 
   after_create :invoke_screenshot
 
+  def screenshot_url
+    @screenshot_url ||= begin
+      client = Aws::S3::Client.new(region: 'us-east-1')
+      resource = Aws::S3::Resource.new(client: client)
+      bucket = resource.bucket('web-screenshot-images-okonomi')
+      object = bucket.object("#{id}.png")
+      object.presigned_url(:get)
+    end
+  end
+
   private
 
   def invoke_screenshot
