@@ -21,6 +21,13 @@ const serverlessConfiguration: Serverless = {
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: 's3:PutObject',
+        Resource: 'arn:aws:s3:::web-screenshot-images-okonomi/*'
+      }
+    ],
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
     },

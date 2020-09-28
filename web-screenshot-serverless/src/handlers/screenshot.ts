@@ -1,8 +1,12 @@
 import { Handler } from 'aws-lambda';
 import chromium from 'chrome-aws-lambda';
 import { Browser } from 'puppeteer';
+import * as AWS from 'aws-sdk';
 import 'source-map-support/register';
 
+AWS.config.update({region: 'us-east-1'});
+
+const s3 = new AWS.S3();
 
 export const handler: Handler = async (event) => {
   let result = null;
@@ -23,9 +27,14 @@ export const handler: Handler = async (event) => {
     result = await page.title();
 
     const screenshot = await page.screenshot({
-      fullPage: true,
-      path: './screenshot.png'
+      fullPage: true
     })
+
+    await s3.upload({
+      Bucket: 'web-screenshot-images-okonomi',
+      Key: 'result.png',
+      Body: screenshot
+    }).promise()
   } catch (error) {
     throw error;
   } finally {
