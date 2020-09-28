@@ -4,7 +4,7 @@ class ScreenshotsController < ApplicationController
   # GET /screenshots
   # GET /screenshots.json
   def index
-    @screenshots = Screenshot.all
+    # @screenshots = Screenshot.all
 
     client = Aws::S3::Client.new(region: 'us-east-1')
     resp = client.list_objects_v2({
@@ -44,15 +44,6 @@ class ScreenshotsController < ApplicationController
   # POST /screenshots
   # POST /screenshots.json
   def create
-    client = Aws::Lambda::Client.new(region: 'us-east-1')
-    client.invoke(
-      function_name: 'web-screenshot-serverless-dev-screenshot',
-      payload: {
-        url: 'https://www.example.com/'
-      }.to_json,
-      invocation_type: 'Event',
-    )
-
     @screenshot = Screenshot.new(screenshot_params)
 
     respond_to do |format|
@@ -98,6 +89,6 @@ class ScreenshotsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def screenshot_params
-      params.fetch(:screenshot, {})
+      params.require(:screenshot).permit(:url)
     end
 end
