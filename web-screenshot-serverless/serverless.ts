@@ -34,7 +34,8 @@ const serverlessConfiguration: Serverless = {
   },
   functions: {
     screenshot: {
-      handler: 'src/handlers/screenshot.handler'
+      handler: 'src/handlers/screenshot.handler',
+      timeout: 60
     }
   }
 }
