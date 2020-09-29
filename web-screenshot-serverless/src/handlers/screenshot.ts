@@ -14,6 +14,8 @@ export const handler: Handler = async (event) => {
   let browser: Browser | null = null;
 
   try {
+    await chromium.font('https://raw.githack.com/minoryorg/Noto-Sans-CJK-JP/master/fonts/NotoSansCJKjp-Regular.ttf');
+
     browser = await chromium.puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
